@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     
     'rest_framework',
     'users',
@@ -74,6 +75,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'social_media_api.wsgi.application'
+ASGI_APPLICATION = 'social_media_api.asgi.application'
 
 
 # Database
@@ -88,6 +90,20 @@ DATABASES = {
         'HOST': config('HOST'),
         'PORT': config('PORT'),
     }
+}
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [
+                {
+                    "address": (config('redis_host'), config('redis_port')),
+                    "password": config('redis_password'),
+                }
+            ],
+        },
+    },
 }
 
 
